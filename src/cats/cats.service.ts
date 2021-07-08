@@ -12,7 +12,7 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 /**
  * Serviço CatsService
  *
- * Serviço é responsável por executar ações gerais do módulo Cats.
+ * Serviço é responsável por executar ações de CRUD.
  */
 @Injectable()
 export class CatsService {
@@ -21,18 +21,45 @@ export class CatsService {
     private catRepository: Repository<Cat>,
   ) {}
 
+  /**
+   * @Author - <Marllon Soares> - marlonmcs@hotmail.com
+   * @Date - 08/07/2021 20:21:00
+   * @allEditors - [<Marllon Soares> - marlonmcs@hotmail.com, ...]
+   * @LasEditor -
+   * @Description - Método de start.
+   * @param id - Identificador único de um Cat
+   * @returns string - Retorna um Array de Cat.
+   */
   getIndex(message = ''): string {
     if (message) {
       return message;
     }
-    return 'Seja bem-vindo(a) a Cats Aplication';
+    return 'Hello, welcome to the cats application.';
   }
 
+  /**
+   * @Author - <Marllon Soares> - marlonmcs@hotmail.com
+   * @Date - 08/07/2021 20:21:00
+   * @allEditors - [<Marllon Soares> - marlonmcs@hotmail.com, ...]
+   * @LasEditor -
+   * @Description - Método responsável por listar todos os Cats.
+   * @param id - Identificador único de um Cat
+   * @returns Promise<Cat[]> - Retorna um Array de Cat.
+   */
   async listALl(): Promise<Cat[]> {
     const cats = await this.catRepository.find();
     return cats;
   }
 
+  /**
+   * @Author - <Marllon Soares> - marlonmcs@hotmail.com
+   * @Date - 08/07/2021 20:21:00
+   * @allEditors - [<Marllon Soares> - marlonmcs@hotmail.com, ...]
+   * @LasEditor -
+   * @Description - Método responsável por criar dados de Cats no banco de dados.
+   * @param id - Identificador único de um Cat
+   * @returns Promise<Cat> - Retorna um objeto de Cat.
+   */
   async createCat(data: CreateCatDto): Promise<Cat> {
     const cat = this.catRepository.create(data);
     const catSaved = await this.catRepository.save(cat);
@@ -45,6 +72,15 @@ export class CatsService {
     return catSaved;
   }
 
+  /**
+   * @Author - <Marllon Soares> - marlonmcs@hotmail.com
+   * @Date - 08/07/2021 20:21:00
+   * @allEditors - [<Marllon Soares> - marlonmcs@hotmail.com, ...]
+   * @LasEditor -
+   * @Description - Método responsável por buscar um cat com base no ID.
+   * @param id - Identificador único de um Cat
+   * @returns Promise<Cat> - Retorna um objeto de Cat.
+   */
   async findCatById(id: string): Promise<Cat> {
     const cat = await this.catRepository.findOne(id);
     if (!cat) {
@@ -53,6 +89,15 @@ export class CatsService {
     return cat;
   }
 
+  /**
+   * @Author - <Marllon Soares> - marlonmcs@hotmail.com
+   * @Date - 08/07/2021 20:21:00
+   * @allEditors - [<Marllon Soares> - marlonmcs@hotmail.com, ...]
+   * @LasEditor -
+   * @Description - Método responsável por alterar um cat no banco de dados.
+   * @param id - Identificador único de um Cat
+   * @returns Promise<Cat> - Retorna o cat alterado.
+   */
   async updateCat(id: string, data: UpdateCatDto): Promise<Cat> {
     await this.findCatById(id);
     await this.catRepository.update(id, data);

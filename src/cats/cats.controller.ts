@@ -15,7 +15,7 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 /**
  * Controlador do módulo de Cats.
  * Controlador fica responsável por gerenciar as  solicitaçãoes, referentes
- * aos Cats, de entrada e entregar as respostas para o Clinte.
+ * aos Cats, de entrada e entregar as respostas para o usuário.
  */
 @Controller({ path: 'cats' })
 export class CatsController {
@@ -37,7 +37,7 @@ export class CatsController {
     return this.catsService.getIndex(openingMessage);
   }
 
-  @Get(':id')
+  @Get('find/:id')
   async listACat(@Param('id') id: string): Promise<Cat> {
     console.log(`LIsting id cat record: ${id}`);
     const cat = await this.catsService.findCatById(id);
