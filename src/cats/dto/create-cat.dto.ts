@@ -3,11 +3,13 @@
  * É um padrão de projeto de software usado para transferir dados
  * entre subsistemas de um software.
  */
-interface CreateCatDto {
-  id: string;
+ import { Field, InputType, Int } from '@nestjs/graphql';
+ @InputType()
+ export class CreateCatDto {
+  @Field(()=> String)
   name: string;
-  owner: string;
-  created_at?: string;
-  updated_at?: string;
+
+  @Field(()=> Int, {nullable: true})
+  age: number;
 }
-export { CreateCatDto };
+

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cat } from 'src/cats/cat.entity';
+import { Cat } from 'src/cats/entities/cat.entity';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 
@@ -98,10 +98,10 @@ export class CatsService {
    * @param id - Identificador único de um Cat
    * @returns Promise<Cat> - Retorna o cat alterado.
    */
-  async updateCat(id: string, data: UpdateCatDto): Promise<Cat> {
-    await this.findCatById(id);
-    await this.catRepository.update(id, data);
-    return this.findCatById(id);
+  async updateCat( data: UpdateCatDto): Promise<Cat> {
+    await this.findCatById(data.id);
+    await this.catRepository.save(data);
+    return this.findCatById(data.id);
   }
 
   /**

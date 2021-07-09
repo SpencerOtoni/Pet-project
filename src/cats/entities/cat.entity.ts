@@ -1,28 +1,41 @@
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity()
-class Cat {
+ObjectType({description: 'Cat Models'})
+@Entity({name: 'cats' })
+export class Cat {
+  @Field(() => ID)
   @PrimaryColumn()
   readonly id: string;
 
+  @Field(() => String, {description: 'Name cat'})
   @Column()
   name: string;
 
+  @Field(() => Int ,{ nullable: true})
   @Column()
-  owner: string;
+  age: number;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @Field(() => Date)
+  @CreateDateColumn({name: 'created_at'})
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @Field(() => Date)
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt: Date;
+
+
+  @Field(() => Date, { nullable: true })
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 
   constructor() {
     if (!this.id) {
@@ -31,4 +44,3 @@ class Cat {
   }
 }
 
-export { Cat };
